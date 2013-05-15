@@ -58,7 +58,9 @@ module Artoo
 
     # Continue work for each robot
     def continue_work
-      robots.each {|r| r.async.continue_work}
+      exclusive do
+        robots.each {|r| r.async.continue_work}
+      end
     end
 
     # @deprecated
