@@ -45,7 +45,9 @@ module Artoo
 
     # Do asynchronous work for each robot
     def start_work
-      robots.each {|r| r.async.work} unless Artoo::Robot.is_running?
+      exclusive do
+        robots.each {|r| r.async.work} 
+      end 
     end
 
     # Pause work for each robot
@@ -58,9 +60,7 @@ module Artoo
 
     # Continue work for each robot
     def continue_work
-      exclusive do
-        robots.each {|r| r.async.continue_work}
-      end
+      robots.each {|r| r.async.continue_work}
     end
 
     # @deprecated
